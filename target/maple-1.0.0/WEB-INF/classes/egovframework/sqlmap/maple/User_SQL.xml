@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="kr.co.maple.user.service.impl.UserMapper">
+
+    <select id="login" resultType="userVo">
+        select user_name, user_pwd, auth_cd, nickname, user_id
+        from "user"
+        where user_name = #{userName} and user_pwd = #{userPwd}
+    </select>
+
+    <select id="loginCheck" resultType="int">
+        SELECT COUNT(*)
+        FROM "user"
+        Where user_Id = #{userId}
+    </select>
+
+    <insert id="signUpInsert" parameterType="UserVo">
+        INSERT INTO "user" (user_name, user_pwd, nickname)
+        VALUES (#{username}, #{userPwd}, #{nickname} )
+    </insert>
+
+    <!-- 사용자 수정 -->
+    <update id="userUpdate" parameterType="userVO">
+        Update "user"
+        set  nickname= #{nickname}, user_pwd = #{userPwd}, user_name = #{userName}
+        where user_id = #{userId}
+    </update>
+
+    <select id="selectAbility" resultType="AbilityVo">
+        SELECT
+            value1, value2, value3, value4, value5
+        from abilityValue
+        WHERE value_id = #{valueId};
+    </select>
+
+    <select id="selectLineChart" resultType="AbilityVo">
+        SELECT
+            usy, usy_value
+        from lineChart;
+    </select>
+
+    <select id="selectBox1" resultType="abilityVo">
+        SELECT valuename, value_id
+        from abilityvalue
+        order BY value_id ASC;
+    </select>
+
+    <select id="salesData" resultType="abilityVo">
+        Select sales_price , net_income, today_benefic, date
+        from sales;
+    </select>
+</mapper>

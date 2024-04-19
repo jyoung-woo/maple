@@ -1,0 +1,73 @@
+.popup {
+    background-color: #F2F2F2; /* 회색 배경색 */
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    width: 400px; /* 너비 조정 */
+    margin: 100px auto; /* 중앙 정렬 */
+    font-family: Arial, sans-serif; /* 글꼴 지정 */
+}
+
+.popup-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.popup-content {
+    color: #666; /* 내용 색상 변경 */
+}
+
+.popup-buttons {
+    text-align: center;
+    margin-top: 20px; /* 버튼과의 간격 추가 */
+}
+
+.popup-buttons button {
+    background-color: #FFD700; /* 노란색 배경색 */
+    color: #FFF;
+    border: none;
+    padding: 12px 24px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    justify-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+}
+
+.popup-buttons button:hover {
+    background-color: #FFA500;
+}
+
+.userTable {
+    width: 100%;
+}
+
+.userTable th {
+
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+.userTable td {
+    padding-bottom: 10px;
+}
+
+.userTable input[type="text"] {
+    width: calc(100% - 20px); /* 입력란 너비 조정 */
+    padding: 10px;
+    border: 1px solid #DDD; /* 경계선 추가 */
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+    margin-bottom: 10px;
+    font-family: Arial, sans-serif; /* 글꼴 지정 */
+
+}
+
+.userTable input[type="text"]:focus {
+    outline: none;
+    border-color: #FFD700; /* 포커스시 경계선 색상 변경 */
+}
+
