@@ -3,8 +3,8 @@ package kr.co.maple.user.service.impl;
 import kr.co.maple.user.vo.AbilityVo;
 import kr.co.maple.user.vo.UserVo;
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
+import org.hsqldb.lib.List;
 
-import java.util.List;
 
 @Mapper("userMapper")
 public interface UserMapper {
@@ -21,5 +21,7 @@ public interface UserMapper {
 
      public List<AbilityVo> selectBox1();
 
-     public List<AbilityVo> salesData();
+     public List<AbilityVo> salesData(AbilityVo vo);
+
+     public List<AbilityVo> dayDate(AbilityVo vo);
 }

@@ -47,8 +47,34 @@
     </select>
 
     <select id="salesData" resultType="abilityVo">
-        Select sales_price , net_income, today_benefic, date
-        from sales
-        order by date asc;
+        <if test = 'daySelectBox == "month"'>
+        SELECT
+            TO_CHAR(date, 'YYYY-MM') AS date,
+            ROUND(AVG(sales_price), 2) AS salesPrice,
+            ROUND(AVG(net_income), 2) AS netIncome,
+            ROUND(AVG(today_benefic), 2) AS todayBenefic
+        FROM
+            sales
+        WHERE
+            date between TO_DATE(#{startDate},'YYYY-MM') AND TO_DATE(#{endDate},'YYYY-MM') + INTERVAL '1 month'
+        GROUP BY
+            TO_CHAR(date, 'YYYY-MM')
+            ORDER BY
+            date ASC;
+       </if>
+        <if test = 'daySelectBox == "day"'>
+           SELECT sales_price , date, net_income, today_benefic
+                from sales
+            WHERE
+                date between TO_DATE(#{startDate},'YYYY-MM-DD') AND TO_DATE(#{endDate},'YYYY-MM-DD') + INTERVAL '1 day'
+            ORDER BY
+                date ASC;
+       </if>
+    </select>
+
+    <select id="dayDate" resultType="abilityVo">
+        select date from sales
+        order by
+        date asc
     </select>
 </mapper>

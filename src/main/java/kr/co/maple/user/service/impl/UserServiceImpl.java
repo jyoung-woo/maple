@@ -49,9 +49,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<AbilityVo> salesData() {
-        return mapper.salesData();
+    public List<AbilityVo> salesData(AbilityVo vo) {
+        return mapper.salesData(vo);
     }
+
+    @Override
+    public List<AbilityVo> dayDate(AbilityVo vo) {
+        return mapper.dayDate(vo);
+    }
+
+
 }
 
 

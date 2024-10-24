@@ -18,4 +18,5 @@ public class UserVo {
     String authCd;
     String userName;
     String username;
+    String daySelectBox;
 }

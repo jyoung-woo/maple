@@ -18,7 +18,10 @@ public interface UserService {
     public List<AbilityVo> selectLineChart();
     public List<AbilityVo> selectBox1();
 
-    public List<AbilityVo> salesData();
+    public List<AbilityVo> salesData(AbilityVo vo);
+
+    public List<AbilityVo> dayDate(AbilityVo vo);
+
 
 
 

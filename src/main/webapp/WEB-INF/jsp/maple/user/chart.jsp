@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" href="#">
-    <script type="module" src="./resources/js/login/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/adapters/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="./resources/js/login/chart.js"></script>
 
 
 
@@ -88,6 +89,7 @@
 
         }
 
+
     </style>
 </head>
 <body>
@@ -109,31 +111,45 @@
         </div>
     </div>
     <div class="searchDiv" style="width:100%; height:100px;">
-        <select style="width:100px; height: 35px"  id="searchType1" class="select1">
+        <select style="width:100px; height: 35px; display: none"  id="searchType1" class="select1">
             <option></option>
         </select>
-        <select style="width:100px; height: 35px; margin-left: 20px" id="searchType2" class="select2">
+        <select style="width:100px; height: 35px; margin-left: 20px; display: none" id="searchType2" class="select2">
         </select>
-        <button id="bcBtn" style="width: 50px"> 바차트 </button>
+        <div style="margin-left: 10px; " id="yearData">
+            <span style="font-weight: bold">검색구분: </span>
+            <select style="width:100px; height: 35px;" id="daySelectBox">
+            <option value="month">월별 데이터</option>
+            <option value="day">일별 데이터</option>
+        </select>
+        <input style="width: 100px; height: 35px" type="month" id="startDate">
+        <span>~</span>
+        <input style="width: 100px; height: 35px" type="month" id="endDate">
+        <button style="width: 100px; height: 35px" id="searchBtn">검색</button>
+        </div>
+
+        <button id="bcBtn" style="width: 50px; margin-left: 10px"> 바차트 </button>
         <button id="lineBtn" style="width: 50px"> 라인차트 </button>
         <button id="mixBtn" style="width: 50px"> 혼합차트 </button>
 
     </div>
-    <div id="mychart1"  style="width: 100%; height: 400px; border: 3px solid black; margin-top:30px; display: none" >
+    <div id="mychart1"  style="width: 1280px; height: 400px; border: 3px solid black; margin-top:30px; display: none; position: relative;" >
         <a id="xButton1" style="float: right; margin-right:15px; font-size: 30px" >x</a>
-        <canvas id="mychart" width="1000" height="400"></canvas>
+        <canvas id="mychart" style="width: 100%; height: 100%;  margin-bottom: 50px" ></canvas>
     </div>
-    <div id="lineChart1" style="width: 100%; height: 400px; border:3px solid black; margin-top: 30px; display: none">
+    <div id="lineChart1" style="width: 1280px; height: 400px; border:3px solid black; margin-top: 30px; display: none; position: relative;">
         <a id="xButton2" style="float: right; margin-right:15px; font-size: 30px" >x</a>
-        <canvas id="lineChart" width="1000" height="400"></canvas>
+        <canvas id="lineChart" style="width: 100%; height: 100%; margin-bottom: 50px"></canvas>
     </div>
-    <div id="mixChart1" style="width: 100%; height: 400px; border:3px solid black; margin-top: 30px; display: block">
-        <a id="xButton3" style="float: right; margin-right:15px; font-size: 30px" >x</a>
-        <canvas id="mixChart" width="1000" height="400"></canvas>
+    <div id="mixChart1" style="width: 1280px; height: 400px; border:3px solid black; display: block; position: relative;">
+        <a id="xButton3" style="position: absolute; top: 10px; right: 10px; font-size: 30px;">x</a>
+        <canvas id="mixChart" style="width: 100%; height: 100%;"></canvas>
     </div>
     <div>
         앞으로해볼거: 년별데이터, 월별데이터, 일별데이터, 시간별 데이터, 데이터줌까지 로 동적으로표현하기, ㅅㅇㅇㅅㄱㅎㄱ
     </div>
 </div>
 </body>
+<script>
+</script>
 </html>

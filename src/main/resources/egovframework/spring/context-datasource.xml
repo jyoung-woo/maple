@@ -7,7 +7,7 @@
 	<!-- 테스트 실행용 -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
 		<property name="driverClass" value="org.postgresql.Driver"/>
-		<property name="url" value="jdbc:postgresql://localhost:5432/postgres" />
+		<property name="url" value="jdbc:postgresql://localhost:5017/postgres" />
 		<property name="username" value="postgres"/>
 		<property name="password" value="1215"/>
 	</bean>

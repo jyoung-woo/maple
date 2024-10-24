@@ -77,6 +77,7 @@ public class UserController {
             }
     }
 
+
     @RequestMapping(value = "/signUpInsert.do", method = RequestMethod.POST)
     @ResponseBody
     public ModelAndView signUpInsert(@RequestBody UserVo vo){
@@ -130,10 +131,19 @@ public class UserController {
     }
 
     @RequestMapping(value="/chart/mixChart.do", method = RequestMethod.GET)
-    public ModelAndView mixChart(){
+    public ModelAndView mixChart(AbilityVo vo){
         ModelAndView modelAndView = new ModelAndView("jsonView");
-        List<AbilityVo> chart = service.salesData();
+        List<AbilityVo> chart = service.salesData(vo);
         modelAndView.addObject("chart", chart);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value="/chart/dayDate.do", method = RequestMethod.GET)
+    public ModelAndView dayDate(AbilityVo vo){
+        ModelAndView modelAndView = new ModelAndView("jsonView");
+        List<AbilityVo> date = service.dayDate(vo);
+        modelAndView.addObject("date",date);
 
         return modelAndView;
     }

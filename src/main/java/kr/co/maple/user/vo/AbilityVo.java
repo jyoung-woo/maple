@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -27,6 +29,13 @@ public class AbilityVo {
     public double salesPrice;
     public double netIncome;
     public double todayBenefic;
-    public int date;
+    public String date;
+    public String month;
+    public String day;
+    public String daySelectBox;
+    public String daydate;
+    public String startDate;
+    public String endDate;
+
 
 }

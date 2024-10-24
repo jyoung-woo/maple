@@ -1,23 +1,30 @@
 class chart {
+    #salesAvgArray;
+    #dateArray;
+    #date;
+    #dataIndex;
+    #heloDate = false;
     constructor() {
-       this.init();
+        this.init();
     }
     init(){
         this.clickListener();
+        /*this.dateDate();*/
         this.selectBox1();
         this.lineChart();
         this.mixChart();
     }
-
 
     clickListener(){
         let count = 0;
         let count1 = 0;
         let count2 = 0;
         document.getElementById("bcBtn").addEventListener('click',()=>{
+            document.querySelector("#searchType1").style.display='block';
             count ++;
             if(count % 2 ===0){
                 document.querySelector("#mychart1").style.display = "none";
+                document.querySelector("#searchType1").style.display= 'none';
             }else {
                 document.querySelector("#mychart1").style.display = "block";
             }
@@ -35,8 +42,11 @@ class chart {
             count2 ++;
             if(count2 % 2 ===0){
                 document.querySelector("#mixChart1").style.display = 'block';
+                document.querySelector("#yearData").style.display = 'block'
             }else {
                 document.querySelector("#mixChart1").style.display = 'none';
+                document.querySelector("#yearData").style.display = 'none'
+
             }
         })
 
@@ -48,6 +58,27 @@ class chart {
         })
         document.getElementById("xButton3").addEventListener('click',()=>{
             document.querySelector("mixChart1").style.display = "none";
+        })
+        let monthData = document.getElementById("daySelectBox");
+        monthData.addEventListener('change',()=>{
+            this.#heloDate = false;
+            this.#dataIndex = monthData.selectedIndex;
+            if(this.#dataIndex ===0){
+                document.getElementById("startDate").type = "month";
+                document.getElementById("endDate").type = "month";
+                if(this.#heloDate === false){
+                this.dateDate();
+                }
+            }else{
+                document.getElementById("startDate").type = "date";
+                document.getElementById("endDate").type = "date";
+                if(this.#heloDate === false){
+                    this.dateDate();
+                }
+            }
+        })
+        document.querySelector("#searchBtn").addEventListener('click',()=>{
+            this.mixChart();
         })
 
     }
@@ -73,40 +104,77 @@ class chart {
             })
     }
 
-    mixChart = async () => {
+    //일별데이터
+   async dateDate() {
+        this.#heloDate = true;
+        let dayData = [];
+        let start = document.querySelector("#startDate");
+        let end = document.querySelector("#endDate");
+       let startDateType = start.type;
+       let endDateType = end.type;
 
+        await axios.get("/chart/dayDate.do")
+            .then((res) => {
+                let data = res.data.date;
+                for (let i = 0; i < data.length; i++) {
+                    let dataValue = data[i].date;
+                    dayData.push(dataValue)
+                }
+                if(startDateType === "month"){
+                    start.value = dayData[0].slice(0,7);
+                    end.value = dayData[dayData.length-1].slice(0,7);
+                }else{
+                    start.value = dayData[0];
+                    end.value = dayData[dayData.length-1]
+                }
+
+            })
+
+    }
+
+    mixChart = async () => {
+        if(this.#heloDate === false){
+            await this.dateDate();
+        }
+        if(this.mixChart1) {
+            this.mixChart1.destroy();
+        }
         let salesArray = [];
         let netIncomeArray = [];
         let todayBenArray = [];
-        let dateArray = [];
-        let salesAvgArray = [];
+        this.#dateArray = [];
+        this.#salesAvgArray = [];
         let todayAvgArray = [];
-        await axios.get("/chart/mixChart.do")
+        let daySelectBox = document.getElementById("daySelectBox").value;
+        let startDate = document.getElementById("startDate").value;
+        let endDate = document.getElementById("endDate").value;
+        let data = {daySelectBox:daySelectBox, startDate:startDate, endDate:endDate}
+        await axios.get("/chart/mixChart.do", {params:data})
             .then((res) => {
                 let data = res.data.chart;
                 for (let i = 0; i < data.length; i++) {
                     let salesData = data[i].salesPrice;
                     let netIncome = data[i].netIncome;
                     let todayBen = data[i].todayBenefic;
-                    let date = data[i].date;
+                    this.#date = data[i].date;
                     let salesAvg = salesData / netIncome;
                     let todayAvg = netIncome / todayBen;
                     salesArray.push(salesData);
                     netIncomeArray.push(netIncome);
                     todayBenArray.push(todayBen);
-                    dateArray.push(date);
-                    salesAvgArray.push(salesAvg);
+                    this.#dateArray.push(this.#date);
+                    this.#salesAvgArray.push(salesAvg);
                     todayAvgArray.push(todayAvg);
-
                 }
             })
 
 
         const mixChart = document.querySelector("#mixChart").getContext('2d');
-        new Chart(mixChart, {
+        Chart.defaults.color = "#ffffff";
+        this.mixChart1 = new Chart(mixChart, {
             type: 'line',
             data: {
-                labels: dateArray,
+                labels: this.#dateArray.slice(0,salesArray.length),
                 datasets: [{
                     label: '총이득',
                     data: salesArray,
@@ -132,7 +200,7 @@ class chart {
                     type: 'bar'
                 }, {
                     label: '다른이득률',
-                    data: salesAvgArray,
+                    data: this.#salesAvgArray,
                     backgroundColor: 'rgba(255,223,0,0.2)',
                     borderColor: 'rgba(255,223,0,1)',
                     borderWidth: 2,
@@ -149,6 +217,8 @@ class chart {
                 }],
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     zoom: {
                         zoom: {
@@ -159,6 +229,10 @@ class chart {
                                 enabled: true
                             },
                             mode: 'x'
+                        },
+                        pan: {
+                            enabled: true,
+                            mode: 'x'
                         }
                     }
                 },
@@ -168,7 +242,8 @@ class chart {
                         ticks: {
                             callback: function (value) {
                                 return `${value.toLocaleString()}원`
-                            }
+                            },
+                            color: '#ffffff'
                         }
                     },
                     Y2: {
@@ -180,20 +255,34 @@ class chart {
                         ticks: {
                             callback: function (hello) {
                                 return `${hello.toLocaleString()}%`
-                            }
+                            },
+                            color: '#ffffff'
                         }
+                    },
+                    x: {
+                        type: 'category',
+                        ticks: {
+                            maxTicksLimit: 10,
+                            color: '#ffffff'
+                        }
+                    }
+                },
+                legend: {
+                    labels: {
                     }
                 }
             }
         });
     }
+
     barChart = async (valueId) => {
         if(this.myBarChart) {
             this.myBarChart.destroy();
         }
         const labels = [];
         const values = [];
-        await axios.get("/selectAbility.do", {params: {valueId:valueId}})
+        let data = {valueId:valueId}
+        await axios.get("/selectAbility.do", {params: data})
             .then((res) => {
                 let data = res.data.data;
                 Object.keys(data).forEach(key => {
@@ -234,19 +323,8 @@ class chart {
                 }]
             },
             options: {
-                    plugins: {
-                        zoom: {
-                            zoom: {
-                                wheel: {
-                                    enable: true
-                                },
-                                pinch: {
-                                    enabled: true
-                                },
-                                mode: 'xy',
-                            }
-                        }
-                    },
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true
@@ -281,6 +359,9 @@ class chart {
                     borderColor: 'rgb(75,192,192)',
                     tension: 0.1
                 }]
+            },options: {
+                responsive: true,
+                maintainAspectRatio: false
             }
         });
     }
